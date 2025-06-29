@@ -1,0 +1,8 @@
+express
+express-session
+cors
+mongoose
+axios
+bcrypt
+multer 
+cloudinary
