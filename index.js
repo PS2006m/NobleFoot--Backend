@@ -90,12 +90,30 @@ app.get("/",async(req,res)=>{
     res.json({msg:"Hello",success:true})
 })
 
-app.post('/signup',async(req,res)=>{
-    const {email,password,name}=req.body
+app.post('/signup', async (req, res) => {
+  const { email, password, name } = req.body;
+
+  // Basic validation
+  if (!email || !password || !name) {
+    return res.status(400).json({ msg: "All fields are required", success: false });
+  }
+
+  try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    await SUsers.create({email,password:hashedPassword,name,other:{},cart:[],role:"customer"})
-    res.json({msg:"User created",success:true})
-})
+    await SUsers.create({
+      email,
+      password: hashedPassword,
+      name,
+      other: {},
+      cart: [],
+      role: "customer"
+    });
+    res.json({ msg: "User created", success: true });
+  } catch (err) {
+    console.error("Signup error:", err);
+    res.status(500).json({ msg: "Server error", success: false });
+  }
+});
 
 async function uploadImage(img) {
   try {
