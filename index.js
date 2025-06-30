@@ -11,7 +11,7 @@ const SProduct=require('./models/SProducts')
 const fs = require('fs');
 const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
-var PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 const MongoStore = require('connect-mongo');
 
 
