@@ -11,10 +11,12 @@ const SProduct=require('./models/SProducts')
 const fs = require('fs');
 const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
+const PORT = process.env.PORT || 5000;
+const MongoStore = require('connect-mongo');
 
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://noblefoot-frontend.onrender.com',
   credentials: true
 }));
 
@@ -37,9 +39,14 @@ app.use(session({
   secret: 'your-secret-key',
   resave: false,
   saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: `mongodb+srv://prathamshah485:${db_pass}@cluster0.ct3g8rx.mongodb.net/user?retryWrites=true&w=majority&appName=Cluster0`,
+    collectionName: 'sessions'
+  }),
   cookie: {
-    secure: false, // true only for HTTPS
+    secure: process.env.NODE_ENV === 'production', // true only in production
     httpOnly: true,
+    sameSite: 'none', // Required for cross-site cookies
     maxAge: 1000 * 60 * 60 * 24 // 1 day
   }
 }));
@@ -337,6 +344,6 @@ app.post('/login', async (req, res) => {
 });
 
 
-app.listen(5000,()=>{
+app.listen(PORT,()=>{
     console.log("Server listening")
 })
