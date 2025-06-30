@@ -14,12 +14,6 @@ const cloudinary = require('cloudinary').v2;
 const PORT = process.env.PORT || 5000;
 const MongoStore = require('connect-mongo');
 
-
-app.use(cors({
-  origin: 'https://noblefoot-frontend.onrender.com',
-  credentials: true
-}));
-
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config(); // Only load from .env in dev
 }
@@ -49,6 +43,12 @@ app.use(session({
     sameSite: 'none', // Required for cross-site cookies
     maxAge: 1000 * 60 * 60 * 24 // 1 day
   }
+}));
+
+
+app.use(cors({
+  origin: 'https://noblefoot-frontend.onrender.com',
+  credentials: true
 }));
 
 cloudinary.config({
